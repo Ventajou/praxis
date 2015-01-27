@@ -27,4 +27,20 @@ namespace :praxis do
     Rack::Server.start app: app, Port: args[:port]
   end
   
+  desc "Validate API docs against Swagger 2.0 schema"
+  task :validate do
+    require 'json-schema'
+    schema_path = 'praxis-resource-schema.json'
+#    doc_path = 'swagger_docs/1.0.0/swagger.json'
+    doc_path = 'test.json'
+    
+    schema_reader = JSON::Schema::Reader.new(:accept_uri => false, :accept_file => true)
+
+    errors = JSON::Validator.fully_validate(schema_path, doc_path, :schema_reader => schema_reader, errors_as_objects: true)
+    puts "Error count: #{errors.size}"
+    errors.each do |error|
+      puts error
+    end
+  end
+    
 end

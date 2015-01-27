@@ -145,7 +145,7 @@ module Praxis
 
     def describe
       {}.tap do |hash|
-        hash[:description] = description
+        hash[:description] = description if description
         hash[:name] = name
         # FIXME: change to :routes along with api browser
         hash[:urls] = routes.collect(&:describe)
