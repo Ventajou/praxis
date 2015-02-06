@@ -17,7 +17,9 @@ module Praxis
     end
 
     def describe(shallow=true)
-      {identifier: identifier}
+      hash = { name: name }
+      hash[:identifier] = identifier if identifier
+      hash
     end
   end
 

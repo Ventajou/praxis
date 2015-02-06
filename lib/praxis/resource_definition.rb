@@ -92,9 +92,10 @@ module Praxis
       def describe
         {}.tap do |hash|
           hash[:description] = description if description
-          # FIXME: how does the JSON output know if the mediatype is a "type" name, or an inet MT??
-          # Maybe we can have a union of a string and a mini struct 
-          hash[:media_type] = media_type.name if media_type
+          if media_type
+            hash[:media_type] = { name: media_type.name }
+            hash[:media_type][:identifier] = media_type.identifier if media_type.identifier
+          end
           hash[:actions] = actions.values.map(&:describe)
         end
       end
